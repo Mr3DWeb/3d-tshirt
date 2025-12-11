@@ -3,11 +3,11 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x222831)
+//scene.background = new THREE.Color(0x222831)
 const canvas = document.querySelector('#webgl');
 
 const camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,100);
-camera.position.set(0,0,5);
+camera.position.set(0,0,2);
 
 const renderer = new THREE.WebGLRenderer({
   canvas:canvas,
@@ -54,12 +54,32 @@ const btnAnimation = document.querySelector("#animation");
 const btnState = {
   isRunning :false,
   toggle(){
-    this.isRunning = !this.isRunning;
-    btnAnimation.textContent = (this.isRunning) ? "Stop Animation" : "Run Animation";
-    this.isRunning ? action.reset().fadeIn(1.2).play() : action.fadeOut(1); 
+    const isActive = btnAnimation.getAttribute('data-active') === 'true';
+    if(isActive){
+      btnAnimation.setAttribute('data-active','false')
+      action.fadeOut(1); 
+    }else{
+      btnAnimation.setAttribute('data-active', 'true');
+      action.reset().fadeIn(1.2).play()
+    }
   }
 }
 btnAnimation.addEventListener('click',()=>{btnState.toggle()});
+
+//Dark Theme
+const toggleBtn = document.getElementById('theme-toggle');
+const htmlEl = document.documentElement;
+
+const savedTheme = localStorage.getItem('theme') || 'dark';
+htmlEl.setAttribute('data-theme', savedTheme);
+
+toggleBtn.addEventListener('click', () => {
+    const currentTheme = htmlEl.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    
+    htmlEl.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+});
 
 
 //----------------------------Three js-------------------------
@@ -80,13 +100,11 @@ gltfLoader.load("model/t-shirt.glb",(gltf)=>{
   tShrit = gltf.scene;
 
   //Scale manegment
-  const tShritScale = 3;
+  const tShritScale = responsive.modelScale;
   tShrit.scale.set(tShritScale,tShritScale,tShritScale);
+
   //Center 
-  const box = new THREE.Box3().setFromObject(tShrit);
-  const center = new THREE.Vector3();
-  box.getCenter(center);
-  tShrit.position.sub(center);
+  tShrit.position.y = -3.5
 
   //animation
    mixer = new THREE.AnimationMixer(tShrit);
@@ -96,9 +114,10 @@ gltfLoader.load("model/t-shirt.glb",(gltf)=>{
   //Acsess To Material
   const shirtMat = tShrit.children[0].children[1].material;
   const humanMat = tShrit.children[0].children[0].material;
+  tShrit.children[0].children[0].visible = false;
 
-  shirtMat.color.setHex(0xFF0000);
-  humanMat.color.setHex(0x00ADB5);
+  //shirtMat.color.setHex(0xFF0000);
+  //humanMat.color.setHex(0x00ADB5);
   
   //Add to scene % log
   scene.add(tShrit);

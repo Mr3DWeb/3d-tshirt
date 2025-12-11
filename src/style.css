@@ -13,11 +13,6 @@
   src: url('../static//Font/Parkinsans-Bold.ttf');
   font-weight: 700;
 }
-@font-face {
-  font-family:'Parkinsans';
-  src: url('../static//Font/Parkinsans-ExtraBold.ttf');
-  font-weight: 800;
-}
 :root{
   --font:'Parkinsans';
   
@@ -27,9 +22,22 @@
 
   --text-primary : #eeeeee;
   --text-secondary : #b8bcc8;
-  --text-accent : #00adb5;
-  --text-inverse : #222831;
 
+  --glass-bg : rgba(0, 0, 0, 0.2);
+  --glass-border : 1px solid rgba(0, 0, 0, 0.2);
+  --glass-shadow : 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+[data-theme="light"]{
+  --color-primary : #eeeeee;
+  --color-secondary : #b8bcc8;
+  --color-accent : #00ADB5;
+
+  --text-primary : #222831;
+  --text-secondary : #393E46;
+
+  --glass-bg : rgba(255, 255, 255, 0.4);
+  --glass-border : 1px solid rgba(255, 255, 255, 0.4);
+  --glass-shadow : 0 4px 30px rgba(255, 255, 255, 0.4);
 }
 *{
   margin: 0;
@@ -37,8 +45,13 @@
   box-sizing: border-box;
 }
 body{
-  overflow-x: hidden;
-  background-color: transparent;
+  overflow: hidden;
+  background: linear-gradient(135deg, #222831 0%, #0f1012 100%);
+  transition: background 0.5s ease;
+  z-index: 0;
+}
+[data-theme="light"] body {
+    background: linear-gradient(135deg, #eeeeee 0%, #d1ddf1 100%);
 }
 body,input, textarea, select, button{
   font-family: var(--font);
@@ -52,48 +65,149 @@ canvas{
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 0;
+  z-index: 1;
 }
 section{
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 2vh;
   width: 100%;
   height: 100vh;
   padding: 20px;
   position: relative; 
-  z-index: 10;
+  z-index: 2;
   pointer-events: none;
   color: var(--text-primary);
 }
-section h1 , section h2 , section h3 , section p , section span {
+section h1 , section h2 , section h3 , section p , section span , section button, section div{
   pointer-events: auto;
 }
-.btnWarpper {
-    width: 100%;
-    height: 10vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    gap: 40px;
-    position: relative;
+.radius-squircle {
+    border-radius: 30px;
 }
-button{
-  background-color: white;
-  color: #00ADB5;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 20px;
-  box-shadow: 5px 5px 10px -4px #ffffff;;
-  border: none;
+@supports (corner-shape: squircle) {
+    .radius-squircle {
+        corner-shape: squircle;
+        border-radius: 100px; /* مقدار مخصوص حالت squircle */
+    }
+}
+div#header,div#main,div#footer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   padding: 10px 20px;
-  cursor: pointer;
-  transition: all .3s ease ;
+  pointer-events: none;
 }
-button:hover{
-  color: #eeeeee;
-  background-color: #00ADB5;
-  box-shadow: 5px 5px 10px -2px #00ADB5;
-  transform: translateY(-5px);
+div#header{
+  height: 8vh;
+}
+div#header h1 {
+  color: var(--text-primary);
+}
+div#main{
+  height: 78vh;
+}
+div#main div{
+  width: 20%;
+  height: 60%;
+  background-color: var(--glass-bg);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+div#footer{
+  height: 10vh;
+  gap: 15px;
+  justify-content: center;
+}
+/*---- btn change theme -----*/
+.theme-switch {
+  width: 80px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border); 
+  position: relative;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+  box-shadow: none; 
+}
+.switch-handle {
+  width: 40px;
+  height: 40px;
+  background-color: var(--text-primary);
+  position: absolute;
+  top: 0px; 
+  left: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.3s;
+}
+.switch-handle .icon {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  color: var(--color-primary);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.sun-icon {
+  opacity: 0;
+  transform: scale(0.5);
+}
+.moon-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+[data-theme="light"] .theme-switch .switch-handle {
+  transform: translateX(40px); 
+  background-color: var(--color-accent); 
+}
+[data-theme="light"] .switch-handle .icon {
+    color: white;
+}
+[data-theme="light"] .moon-icon {
+  opacity: 0;
+  transform: scale(0.5) rotate(90deg);
+}
+[data-theme="light"] .sun-icon {
+  opacity: 1;
+  transform: scale(1) rotate(0);
+}
+[data-theme="light"] .theme-switch {
+    background-color: rgba(0, 0, 0, 0.05); 
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+/* Animation Button */
+.small-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  gap: 8px;
+  padding: 12px;
+  color: var(--text-primary);
+  background-color: var(--glass-bg);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+.small-btn svg{
+  display: block;
+  width: 40px;
+  height: 40px;
+  fill: var(--text-primary);
+  margin-bottom: -6px;
+}
+.small-btn[data-active="true"]{
+   box-shadow: 0 0 5px rgba(0, 173, 181, 0.4);
+   background: rgba(0, 173, 181, 0.1);
+}
+.small-btn[data-active="true"] svg {
+  fill: var(--color-accent);
+  transform: scale(1.1);
 }
