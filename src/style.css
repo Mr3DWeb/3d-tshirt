@@ -51,12 +51,12 @@
 }
 body{
   overflow: hidden;
-  background: linear-gradient(135deg, #222831 0%, #0a1427 100%);
+  background: linear-gradient(90deg, #222831 0%, #0a1427 100%);
   transition: background 0.5s ease;
   z-index: 0;
 }
 [data-theme="light"] body {
-    background: linear-gradient(135deg, #eeeeee 0%, #bcd1f3 100%);
+    background: linear-gradient(210deg, #eeeeee 0%, #bcd1f3 100%);
 }
 body,input, textarea, select, button{
   font-family: var(--font);
@@ -115,11 +115,6 @@ div#header h1 {
 }
 div#main{
   height: 79vh;
-}
-#manage-color{
-  width: 20%;
-  height: 60%;
-  padding: 25px;
 }
 div#footer{
   height: 9vh;
@@ -184,6 +179,109 @@ div#footer{
 [data-theme="light"] .theme-switch {
     background-color: rgba(0, 0, 0, 0.05); 
     border-color: rgba(0, 0, 0, 0.15);
+}
+/* ----------main------------  -*/
+/* -- manage color system -- */
+#manage-color{
+  width: 20%;
+  height: auto;
+  padding: 25px;
+}
+#manage-color h2{
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text-primary);
+}
+#manage-color h3{
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+.control-group{
+  margin-bottom: 25px;
+}
+.control-group:last-child{
+  margin-bottom: 0px;
+}
+.color-swatch,.select-color-warpper{
+  display: flex;
+  flex-wrap: wrap;
+  gap:12px;
+}
+.color-swatch{
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  border: 2px solid rgba(145, 145, 145, 0.1);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25,0.8,0.25,1);
+}
+.color-swatch:hover{
+   transform: translateY(-3px) scale(1.02);
+}
+.color-swatch:active{
+  border-color: var(--color-primary);
+  transform: scale(1.05);
+  box-shadow: 0 0 5px 1px var(--text-secondary);
+}
+.rainbow-mode , .picker-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+    width: 34px;
+    height: 34px;
+}
+.color-swatch svg{
+  width: 20px;
+  height: 20px;
+}
+.color-swatch svg path{
+  fill: var(--text-primary);
+}
+#custom-tshirt-picker,#custom-brush-picker {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.brush-size-warpper{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 15px 0px;
+}
+#brush-size{
+  width: 75%;
+  -webkit-appearance: none;
+  background: transparent;
+}
+#brush-size::-webkit-slider-runnable-track{
+  width: 100%;
+  height: 4px;
+  background: var(--text-primary);
+  border-radius: 2px;
+  cursor: pointer;
+}
+#brush-size::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    cursor: pointer;
+    margin-top: -7px;
+    box-shadow: 0 0 10px rgba(0, 173, 181, 0.6);
+    transition: transform 0.1s;
+}
+.size-value{
+  max-width: 20%;
+  font-size: 0.9rem;
 }
 
 /* Animation & Human Button(Footer Button)  */
