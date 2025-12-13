@@ -39,6 +39,11 @@
   --glass-border : 1px solid rgba(255, 255, 255, 0.4);
   --glass-shadow : 0 4px 30px rgba(255, 255, 255, 0.4);
 }
+.bg-glass {
+  background-color: var(--glass-bg);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
 *{
   margin: 0;
   padding: 0;
@@ -90,7 +95,7 @@ section h1 , section h2 , section h3 , section p , section span , section button
 @supports (corner-shape: squircle) {
     .radius-squircle {
         corner-shape: squircle;
-        border-radius: 100px; /* مقدار مخصوص حالت squircle */
+        border-radius: 100px;
     }
 }
 div#header,div#main,div#footer{
@@ -103,6 +108,7 @@ div#header,div#main,div#footer{
 }
 div#header{
   height: 8vh;
+  padding: 10px 25px;
 }
 div#header h1 {
   color: var(--text-primary);
@@ -110,19 +116,17 @@ div#header h1 {
 div#main{
   height: 79vh;
 }
-div#main div{
+#manage-color{
   width: 20%;
   height: 60%;
-  background-color: var(--glass-bg);
-  border: var(--glass-border);
-  box-shadow: var(--glass-shadow);
+  padding: 25px;
 }
 div#footer{
   height: 9vh;
   gap: 12px;
   justify-content: center;
 }
-/*---- btn change theme -----*/
+/*---- btn change theme (DarkMode & LightMode) -----*/
 .theme-switch {
   width: 80px;
   height: 40px;
@@ -182,16 +186,13 @@ div#footer{
     border-color: rgba(0, 0, 0, 0.15);
 }
 
-/* Animation & Human Button  */
+/* Animation & Human Button(Footer Button)  */
 .footer-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 12px;
   color: var(--text-primary);
-  background-color: var(--glass-bg);
-  border: var(--glass-border);
-  box-shadow: var(--glass-shadow);
   cursor: pointer;
   transition: all 0.4s ease;
   backdrop-filter: blur(10px);

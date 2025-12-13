@@ -7,7 +7,7 @@ const scene = new THREE.Scene();
 const canvas = document.querySelector('#webgl');
 
 const camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,100);
-camera.position.set(0,0,2);
+camera.position.set(0,0,2.4);
 
 const renderer = new THREE.WebGLRenderer({
   canvas:canvas,
@@ -72,11 +72,13 @@ const btnStateHuman = {
     if(isActive){
       btnHuman.setAttribute('data-active','false')
       tShrit.children[0].children[0].visible = false;
-      camera.position.set(0,0,2);
+      camera.position.set(0,0,2.4);
+      tShrit.position.y = -3.5
     }else{
       btnHuman.setAttribute('data-active', 'true');
       tShrit.children[0].children[0].visible = true;
       camera.position.set(0,0,6.2);
+      tShrit.position.y = -3
     }
   }
 }
