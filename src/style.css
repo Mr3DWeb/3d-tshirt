@@ -300,15 +300,15 @@ div#footer{
    cursor: pointer;
    padding: 5px;
 }
-#tools-bar button:active{
-  color:red;
-}
-#tools-bar img{
+#tools-bar img , #tools-bar svg {
   width: 32px;
   height: 32px;
   background: none;
 }
-[data-theme="dark"] #tools-bar img {
+#tools-bar svg path{
+  fill: var(--text-primary);
+}
+[data-theme="dark"] #tools-bar img  {
     filter: invert(1);
 }
 #tools-bar .divider{
@@ -322,6 +322,7 @@ div#footer{
   opacity: 0.5;
   cursor:default !important;
 }
+
 /* Animation & Human Button(Footer Button)  */
 .footer-btn {
   display: inline-flex;
