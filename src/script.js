@@ -49,13 +49,35 @@ function getResponsiveData(){
 }
 const responsive = getResponsiveData();
 
+//----Helping Func---
 // Toggle Function
 function toggleState (btn,onActive,onInactive){
   const isActive = btn.dataset.active ==='true';
   btn.dataset.active = !isActive;
   !isActive ? onActive() : onInactive();
 }
+// Get Contrast Color
+function getContrastColor(hex){
+  hex = hex.replace('#','');
+  const r = parseInt(hex.substr(0, 2), 16);
+  const g = parseInt(hex.substr(2, 2), 16);
+  const b = parseInt(hex.substr(4, 2), 16);
+  //Lighting formula 
+  const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000; 
+  return (yiq >= 128) ? 'black' : 'white';
+}
+// Get Random Color
+let isRandomBrushMode = true;
+function getRandomColor(){
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for(let i = 0; i<6 ; i++){
+    color += letters[Math.floor(Math.random * 16)];
+  }
+  return color;
+}
 
+//---Footer Btn Logic
 //logic Run Animation
 const btnAnimation = document.querySelector("#animation");
 btnAnimation.addEventListener("click",function(){
@@ -92,7 +114,7 @@ btnShot.addEventListener('click',()=>{
   alert("soon");
 })
 
-//Dark Theme
+//-----Dark Theme
 const darkModeBtn = document.getElementById('theme-toggle');
 const htmlEl = document.documentElement;
 
@@ -131,6 +153,113 @@ lockBtn.addEventListener("click",function(){
 //trash
 const trashBtn = document.getElementById("trashBTN");
 
+
+
+//----System Color ----
+// get Human Color 
+const allHumanColorBtn = document.querySelectorAll(".humanColorBtn .color-swatch")
+let currentHumanColor = 0x000000;
+allHumanColorBtn.forEach(btn =>{
+  btn.addEventListener('click',(e)=>{
+    const clickedBtn = e.currentTarget;
+    //delete all active
+    allHumanColorBtn.forEach(otherBtn=>{
+      otherBtn.removeAttribute('data-active');
+    });
+    //set active
+    clickedBtn.setAttribute('data-active', 'true');
+    //get color
+    const colorValue = clickedBtn.getAttribute('data-color');
+    currentHumanColor = colorValue;
+  })
+})
+
+//get T-shirt Color
+const allTShirtColorBtn = document.querySelectorAll(".t-shirtColorBtn .color-swatch")
+let currentTShirtColor = 0xFFFFFF;
+allTShirtColorBtn.forEach(btn =>{
+  btn.addEventListener('click',(e)=>{
+    const clickedBtn = e.currentTarget;
+    //delete all active
+    allTShirtColorBtn.forEach(otherBtn=>{
+      otherBtn.removeAttribute('data-active');
+    });
+    //set active
+    clickedBtn.setAttribute('data-active', 'true');
+    //get color
+    const colorValue = clickedBtn.getAttribute('data-color');
+    currentTShirtColor = colorValue;
+  })
+})
+
+//get custom t-shirt color 
+const customTShirtColorInput = document.getElementById('custom-tshirt-picker');
+const customTShirtColorLabal = document.querySelector('label[for="custom-tshirt-picker"]');
+customTShirtColorInput.addEventListener('input',(e)=>{
+  const newColor = e.target.value;
+  currentTShirtColor = newColor;
+  customTShirtColorLabal.style.backgroundColor = newColor;
+
+  const contrast = getContrastColor(newColor);
+  const svgIcon = customTShirtColorLabal.querySelector('svg');
+  if(contrast === 'white'){
+    svgIcon.style.filter = 'invert(1)';
+  }else{
+    svgIcon.style.filter = 'none';
+  }
+
+  allTShirtColorBtn.forEach(btn=>{btn.removeAttribute('data-avtive');});
+  customTShirtColorLabal.setAttribute('data-active','true');
+})
+//-- Brush Setting
+//brush size 
+const brushSizeInput = document.getElementById('brush-size');
+const brushSizeDisplay = document.getElementById('brush-size-display');
+brushSizeInput.addEventListener('input',(e)=>{
+  const newSize = e.target.value;
+  brushSizeDisplay.innerHTML = newSize+"px";
+})
+//get brush color 
+const allBrushColorBtn = document.querySelectorAll(".brushColorBtn .color-swatch")
+let currentBrushColor = 0xFFFFFF;
+allBrushColorBtn.forEach(btn =>{
+  btn.addEventListener('click',(e)=>{
+    const clickedBtn = e.currentTarget;
+    //delete all active
+    allBrushColorBtn.forEach(otherBtn=>{
+      otherBtn.removeAttribute('data-active');
+    });
+    //set active
+    clickedBtn.setAttribute('data-active', 'true');
+    //get color
+    const colorValue = clickedBtn.getAttribute('data-color');
+    if(colorValue ==='random'){
+      isRandomBrushMode = true;
+    }else{
+      isRandomBrushMode = false;
+      currentBrushColor = colorValue;
+    }
+  })
+})
+//get custom brush color 
+const customBrushColorInput = document.getElementById('custom-brush-picker');
+const customBrushColorLabal = document.querySelector('label[for="custom-brush-picker"]');
+customBrushColorInput.addEventListener('input',(e)=>{
+  const newColor = e.target.value;
+  currentBrushColor = newColor;
+  customBrushColorLabal.style.backgroundColor = newColor;
+
+  const contrast = getContrastColor(newColor);
+  const svgIcon = customBrushColorLabal.querySelector('svg');
+  if(contrast === 'white'){
+    svgIcon.style.filter = 'invert(1)';
+  }else{
+    svgIcon.style.filter = 'none';
+  }
+  isRandomBrushMode = false;
+  allBrushColorBtn.forEach(btn=>{btn.removeAttribute('data-avtive');});
+  customBrushColorLabal.setAttribute('data-active','true');
+})
 //----------------------------Three js-------------------------
 //Lighting
 const ambLight = new THREE.AmbientLight('#ffffff',0.8);
@@ -172,7 +301,6 @@ gltfLoader.load("model/t-shirt.glb",(gltf)=>{
   scene.add(tShrit);
   console.log(gltf)
 })
-
 
 
 

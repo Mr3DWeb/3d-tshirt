@@ -224,10 +224,10 @@ div#footer{
 .color-swatch:hover{
    transform: translateY(-5px) ;
 }
-.color-swatch:active{
+.color-swatch[data-active="true"]{
   border-color: var(--color-primary);
   transform: scale(1.05);
-  box-shadow: 0 0 5px 1px var(--text-secondary);
+  box-shadow: 0 0 5px 1px var(--color-accent);
 }
 .rainbow-mode , .picker-btn {
     display: flex;
@@ -300,7 +300,7 @@ div#footer{
    cursor: pointer;
    padding: 5px;
 }
-#tools-bar img , #tools-bar svg {
+#tools-bar svg {
   width: 32px;
   height: 32px;
   background: none;
@@ -308,8 +308,11 @@ div#footer{
 #tools-bar svg path{
   fill: var(--text-primary);
 }
-[data-theme="dark"] #tools-bar img  {
-    filter: invert(1);
+#tools-bar button:hover svg path{
+  fill: var(--color-accent);
+}
+#tools-bar button[data-active="true"] svg path{
+  fill: var(--color-accent);
 }
 #tools-bar .divider{
   width: 100%;
@@ -320,7 +323,7 @@ div#footer{
 }
 #redoBTN{
   opacity: 0.5;
-  cursor:default !important;
+  pointer-events: none;
 }
 
 /* Animation & Human Button(Footer Button)  */
