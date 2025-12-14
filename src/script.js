@@ -191,8 +191,16 @@ allTShirtColorBtn.forEach(btn =>{
     //get color
     const colorValue = clickedBtn.getAttribute('data-color');
     currentTShirtColor = colorValue;
+
     //change t-shirt color
-    if(shirtMat){shirtMat.color.set(currentTShirtColor);}
+    if (shirtMesh && shirtMesh.userData.diffuseCtx) {
+    const { diffuseCtx, paintLayerCanvas, diffuseTexture, textureSize } = shirtMesh.userData;
+    diffuseCtx.fillStyle = currentTShirtColor;
+    diffuseCtx.fillRect(0, 0, textureSize, textureSize);
+    diffuseCtx.drawImage(paintLayerCanvas, 0, 0, textureSize, textureSize);
+    diffuseTexture.needsUpdate = true;
+    shirtMat.color.set(0xffffff);
+    }
   })
 })
 
@@ -214,8 +222,16 @@ customTShirtColorInput.addEventListener('input',(e)=>{
 
   allTShirtColorBtn.forEach(btn=>{btn.removeAttribute('data-avtive');});
   customTShirtColorLabal.setAttribute('data-active','true');
+
   //change t-shirt color
-  if(shirtMat){shirtMat.color.set(currentTShirtColor);}
+  if (shirtMesh && shirtMesh.userData.diffuseCtx) {
+    const { diffuseCtx, paintLayerCanvas, diffuseTexture, textureSize } = shirtMesh.userData;
+    diffuseCtx.fillStyle = currentTShirtColor;
+    diffuseCtx.fillRect(0, 0, textureSize, textureSize);
+    diffuseCtx.drawImage(paintLayerCanvas, 0, 0, textureSize, textureSize);
+    diffuseTexture.needsUpdate = true;
+    shirtMat.color.set(0xffffff);
+    }
 })
 //-- Brush Setting
 //brush size 
@@ -312,6 +328,12 @@ gltfLoader.load("model/t-shirt.glb",(gltf)=>{
   const diffuseSystem = createTextureCanvas(textureSize, textureSize,currentTShirtColor);
   const normalSystem = createTextureCanvas(textureSize, textureSize,'#8080ff'); 
 
+  //Point Layer
+  const paintLayerCanvas = document.createElement('canvas');
+  paintLayerCanvas.width  = textureSize;
+  paintLayerCanvas.height = textureSize;
+  const paintLayerCtx = paintLayerCanvas.getContext('2d');
+
   //Create canvasTexture 
   const canvasTexture = new THREE.CanvasTexture(diffuseSystem.canvas);
   canvasTexture.colorSpace = THREE.SRGBColorSpace;
@@ -330,6 +352,8 @@ gltfLoader.load("model/t-shirt.glb",(gltf)=>{
     normalCtx: normalSystem.ctx,
     diffuseTexture: canvasTexture,
     normalTexture: canvasNormal,
+    paintLayerCtx: paintLayerCtx,
+    paintLayerCanvas: paintLayerCanvas,
     textureSize: textureSize
   };
   
@@ -375,7 +399,7 @@ function paintOnShirt(event) {
         const uv = intersects[0].uv;
         if (!uv) return;
 
-        const { diffuseCtx, normalCtx, diffuseTexture, normalTexture, textureSize } = shirtMesh.userData;
+        const { diffuseCtx, normalCtx, diffuseTexture, normalTexture,paintLayerCtx,paintLayerCanvas, textureSize } = shirtMesh.userData;
 
         const x = uv.x * textureSize;
         const y = uv.y * textureSize;
@@ -388,6 +412,9 @@ function paintOnShirt(event) {
         }
         drawRotatedImage(diffuseCtx, decalDiffuse.image, x, y, size, size, angle, currentBrushColor);
         drawRotatedImage(normalCtx, decalNormal.image, x, y, size, size, angle, null);
+        if (paintLayerCtx) {
+             drawRotatedImage(paintLayerCtx, decalDiffuse.image, x, y, size, size, angle, currentBrushColor);
+        }
 
         diffuseTexture.needsUpdate = true;
         normalTexture.needsUpdate = true;
