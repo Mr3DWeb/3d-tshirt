@@ -178,7 +178,7 @@ allHumanColorBtn.forEach(btn =>{
 
 //get T-shirt Color
 const allTShirtColorBtn = document.querySelectorAll(".t-shirtColorBtn .color-swatch")
-let currentTShirtColor = 0xFFFFFF;
+let currentTShirtColor = '#ffffff';
 allTShirtColorBtn.forEach(btn =>{
   btn.addEventListener('click',(e)=>{
     const clickedBtn = e.currentTarget;
@@ -221,13 +221,15 @@ customTShirtColorInput.addEventListener('input',(e)=>{
 //brush size 
 const brushSizeInput = document.getElementById('brush-size');
 const brushSizeDisplay = document.getElementById('brush-size-display');
+let brushSize;
 brushSizeInput.addEventListener('input',(e)=>{
   const newSize = e.target.value;
   brushSizeDisplay.innerHTML = newSize+"px";
+  brushSize = newSize;
 })
 //get brush color 
 const allBrushColorBtn = document.querySelectorAll(".brushColorBtn .color-swatch")
-let currentBrushColor = 0xFFFFFF;
+let currentBrushColor = '#FFFFFF';
 allBrushColorBtn.forEach(btn =>{
   btn.addEventListener('click',(e)=>{
     const clickedBtn = e.currentTarget;
@@ -301,15 +303,123 @@ gltfLoader.load("model/t-shirt.glb",(gltf)=>{
   humanMat = tShrit.children[0].children[0].material;
   tShrit.children[0].children[0].visible = false;
 
-  //color system
-  shirtMat.color.set(currentTShirtColor);
+  //set color
+  shirtMat.color.set(0xffffff);
   humanMat.color.set(currentHumanColor);
+
+  //---- For Paint System ---
+  const textureSize = 1024; 
+  const diffuseSystem = createTextureCanvas(textureSize, textureSize,currentTShirtColor);
+  const normalSystem = createTextureCanvas(textureSize, textureSize,'#8080ff'); 
+
+  //Create canvasTexture 
+  const canvasTexture = new THREE.CanvasTexture(diffuseSystem.canvas);
+  canvasTexture.colorSpace = THREE.SRGBColorSpace;
+  canvasTexture.flipY = false;
+
+  const canvasNormal = new THREE.CanvasTexture(normalSystem.canvas);
+  canvasNormal.flipY = false
+
+  shirtMat.map = canvasTexture;
+  shirtMat.normalMap = canvasNormal;
+  shirtMat.color.set(0xffffff);
+  shirtMat.roughness = 0.8;
+
+  shirtMesh.userData = {
+    diffuseCtx: diffuseSystem.ctx,
+    normalCtx: normalSystem.ctx,
+    diffuseTexture: canvasTexture,
+    normalTexture: canvasNormal,
+    textureSize: textureSize
+  };
   
   //Add to scene % log
   scene.add(tShrit);
   console.log(gltf)
 })
 
+// Texture Loader
+const textureLoader = new THREE.TextureLoader();
+const decalDiffuse = textureLoader.load('texture/decal-diffuse.png');
+const decalNormal = textureLoader.load('texture/decal-normal.jpg');
+
+// --- Paint System ----
+
+//Canvas Texture Setup
+function createTextureCanvas(width, height, defaultColor = currentTShirtColor) {
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    
+    ctx.fillStyle = defaultColor;
+    ctx.fillRect(0, 0, width, height);
+    
+    return { canvas, ctx };
+}
+// Painting Logic
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+function paintOnShirt(event) {
+    if (!shirtMesh) return;
+
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+
+    const intersects = raycaster.intersectObject(shirtMesh);
+
+    if (intersects.length > 0) {
+        const uv = intersects[0].uv;
+        if (!uv) return;
+
+        const { diffuseCtx, normalCtx, diffuseTexture, normalTexture, textureSize } = shirtMesh.userData;
+
+        const x = uv.x * textureSize;
+        const y = uv.y * textureSize;
+
+        const size = brushSize || 100; 
+        const angle = Math.random() * Math.PI * 2;
+        //Random Brush Color
+        if(isRandomBrushMode){
+          currentBrushColor = getRandomColor();
+        }
+        drawRotatedImage(diffuseCtx, decalDiffuse.image, x, y, size, size, angle, currentBrushColor);
+        drawRotatedImage(normalCtx, decalNormal.image, x, y, size, size, angle, null);
+
+        diffuseTexture.needsUpdate = true;
+        normalTexture.needsUpdate = true;
+    }
+}
+
+function drawRotatedImage(ctx, image, x, y, width, height, angle, color) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(angle);
+    ctx.translate(-width / 2, -height / 2);
+
+    if (color) {
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = width;
+        tempCanvas.height = height;
+        const tempCtx = tempCanvas.getContext('2d');
+        
+        tempCtx.drawImage(image, 0, 0, width, height);
+
+        tempCtx.globalCompositeOperation = 'source-in';
+        tempCtx.fillStyle = color;
+        tempCtx.fillRect(0, 0, width, height);
+        
+        ctx.drawImage(tempCanvas, 0, 0);
+    } else {
+        ctx.drawImage(image, 0, 0, width, height);
+    }
+    ctx.restore();
+}
+
+window.addEventListener('click', paintOnShirt);
 
 
 //-------------------------------------------------------------
