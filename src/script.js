@@ -72,7 +72,7 @@ function getRandomColor(){
   const letters = '0123456789ABCDEF';
   let color = '#';
   for(let i = 0; i<6 ; i++){
-    color += letters[Math.floor(Math.random * 16)];
+    color += letters[Math.floor(Math.random() * 16)];
   }
   return color;
 }
@@ -278,7 +278,7 @@ scene.add(dirLight);
 //GltfLoader
 const gltfLoader = new GLTFLoader();
 
-let tShrit,shirtMat,humanMat;
+let tShrit,shirtMesh,shirtMat,humanMat;
 let mixer,action;
 gltfLoader.load("model/t-shirt.glb",(gltf)=>{
   tShrit = gltf.scene;
@@ -296,13 +296,14 @@ gltfLoader.load("model/t-shirt.glb",(gltf)=>{
   action = mixer.clipAction(clip);
 
   //Acsess To Material
-  shirtMat = tShrit.children[0].children[1].material;
+  shirtMesh = tShrit.children[0].children[1]
+  shirtMat = shirtMesh.material;
   humanMat = tShrit.children[0].children[0].material;
   tShrit.children[0].children[0].visible = false;
 
   //color system
-  shirtMat.color.set(currentTShirtColor );
-  humanMat.color.set(currentHumanColor );
+  shirtMat.color.set(currentTShirtColor);
+  humanMat.color.set(currentHumanColor);
   
   //Add to scene % log
   scene.add(tShrit);
