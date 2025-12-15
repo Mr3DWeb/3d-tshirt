@@ -12,6 +12,7 @@ camera.position.set(0,0,2.4);
 const renderer = new THREE.WebGLRenderer({
   canvas:canvas,
   antialias:true,
+  preserveDrawingBuffer:true,
   alpha:true
 });
 renderer.setSize(window.innerWidth,window.innerHeight);
@@ -137,9 +138,20 @@ btnHuman.addEventListener('click',function(){
 })
 
 //Take a Shot
+function takeScreenShot(){
+  const imgData = renderer.domElement.toDataURL("image/png");
+  const link = document.createElement('a');
+  const fileName = 'tshirt-design.png';
+  link.setAttribute('download',fileName);
+  link.setAttribute('href',imgData);
+  link.click();
+  link.remove();
+}
 const btnShot = document.querySelector("#shot");
-btnShot.addEventListener('click',()=>{
-  alert("soon");
+btnShot.addEventListener('click',(e)=>{
+  e.preventDefault();
+  renderer.render(scene,camera);
+  takeScreenShot();
 })
 
 //-----Dark Theme
