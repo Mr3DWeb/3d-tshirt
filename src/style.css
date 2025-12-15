@@ -395,7 +395,7 @@ div#footer{
   margin-left: 3px;
   letter-spacing: 1px;
 }
-#Mr3DWeb{
+#Mr3DWeb,#confrim-overlay{
   position: fixed;
   top: 0;
   left: 0;
@@ -411,11 +411,11 @@ div#footer{
   visibility: hidden; 
   transition: opacity 0.4s ease, visibility 0.4s ease;
 }
-#Mr3DWeb.active {
+#Mr3DWeb.active , #confrim-overlay.active {
     opacity: 1;
     visibility: visible;
 }
-.popup {
+.popup,.confrim-box {
   width: 40%;
   background-color: var(--text-primary);
   backdrop-filter: blur(10px);
@@ -539,3 +539,37 @@ div#footer{
     transform: translateX(-50%) translateY(0);
 }
 
+/* Confrim modal Box */
+.confrim-box svg{
+  width: 100px;
+  height: 100px;
+}
+.confrim-box svg path{
+  fill: var(--color-accent);
+}
+.confrim-box h3 {
+  color: var(--color-primary);
+  margin: 20px 0px;
+}
+.confrim-action{
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+.modal-btn{
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.25s;
+}
+.modal-btn:hover{
+  transform: scale(0.95);
+}
+#cancel-btn{
+  background-color: #f0f0f0;
+  color: var(--color-accent);
+}
+#confrim-btn{
+  background: var(--color-accent);
+  color: var(--color-primary);
+}

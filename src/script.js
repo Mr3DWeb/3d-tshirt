@@ -79,6 +79,36 @@ overlayPopup.addEventListener('click',(e)=>{
   }
 })
 
+//Custom Modal Func
+const modalOverlay = document.getElementById('confrim-overlay');
+const modalConfrimBtn = document.getElementById('confrim-btn');
+const modalCancelBtn = document.getElementById('cancel-btn');
+const trashBtn = document.getElementById("trashBTN");
+function openConfrimModal(){
+  modalOverlay.classList.add('active')
+  isPopupOpen = true;
+}
+function closeModal (){
+  modalOverlay.classList.remove('active');
+  setTimeout(()=>{
+    isPopupOpen = false;
+  },300)
+  
+}
+trashBtn.addEventListener('click',(e)=>{
+  e.preventDefault();
+  openConfrimModal();
+})
+modalCancelBtn.addEventListener('click', closeModal);
+modalOverlay.addEventListener('click',(e)=>{
+  if(e.target === modalOverlay) closeModal();
+})
+modalConfrimBtn.addEventListener('click',()=>{
+  clearAllPaint();
+  closeModal();
+})
+
+
 //----Helping Func---
 // Toggle Function
 function toggleState (btn,onActive,onInactive){
@@ -203,8 +233,19 @@ lockBtn.addEventListener("click",function(){
   )
 })
 //trash
-const trashBtn = document.getElementById("trashBTN");
+function clearAllPaint(){
+  const { diffuseCtx, normalCtx, diffuseTexture, normalTexture,paintLayerCtx,paintLayerCanvas, textureSize,diffuseSystem } = shirtMesh.userData;
 
+  paintLayerCtx.clearRect(0,0,paintLayerCanvas.width,paintLayerCanvas.height);
+  diffuseCtx.fillStyle = currentTShirtColor;
+  diffuseCtx.fillRect(0,0,diffuseSystem.canvas.width,diffuseSystem.canvas.height);
+  normalCtx.fillStyle='#8080ff';
+  normalCtx.fillRect(0,0,diffuseSystem.canvas.width,diffuseSystem.canvas.height);
+
+  
+  shirtMesh.material.map.needsUpdate = true;
+  shirtMesh.material.normalMap.needsUpdate = true;
+}
 
 
 //----System Color ----
@@ -406,7 +447,8 @@ gltfLoader.load("model/t-shirt.glb",(gltf)=>{
     normalTexture: canvasNormal,
     paintLayerCtx: paintLayerCtx,
     paintLayerCanvas: paintLayerCanvas,
-    textureSize: textureSize
+    textureSize: textureSize,
+    diffuseSystem:diffuseSystem
   };
   
   //Add to scene
@@ -452,7 +494,7 @@ function paintOnShirt(event) {
         const uv = intersects[0].uv;
         if (!uv) return;
 
-        const { diffuseCtx, normalCtx, diffuseTexture, normalTexture,paintLayerCtx,paintLayerCanvas, textureSize } = shirtMesh.userData;
+        const { diffuseCtx, normalCtx, diffuseTexture, normalTexture,paintLayerCtx,paintLayerCanvas, textureSize,diffuseSystem } = shirtMesh.userData;
 
         const x = uv.x * textureSize;
         const y = uv.y * textureSize;
