@@ -368,3 +368,138 @@ div#footer{
   color: var(--color-accent);
    fill: var(--color-accent);
 }
+
+/* Mr3DWeb Overlay */
+.madeBy{
+  position: absolute;
+  left: 65px;
+  bottom: 30px;
+}
+#openPopup{
+ background: linear-gradient(45deg,#00ADB5,#00575c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 5px rgba(118, 75, 162, 0.3)); /* سایه رنگی */
+  transition: all 0.3s ease;
+  cursor: pointer;
+  z-index: 20;
+}
+[data-theme="dark"] #openPopup{
+ background: linear-gradient(45deg,#00ADB5,#6af8ff);
+  -webkit-background-clip: text;
+ background-clip: text;
+  color: transparent;
+}
+#openPopup:hover{
+  margin-left: 3px;
+  letter-spacing: 1px;
+}
+#Mr3DWeb{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100lvw;
+  height: 100lvh;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+  opacity: 0; 
+  visibility: hidden; 
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+#Mr3DWeb.active {
+    opacity: 1;
+    visibility: visible;
+}
+.popup {
+  width: 40%;
+  background-color: var(--text-primary);
+  backdrop-filter: blur(10px);
+  box-shadow: 0px 0px 20px -5px #00acb5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-direction: column;
+  padding: 35px;
+}
+#profile-warpper{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#profile-warpper div{
+  display: flex;
+  width: 75%;
+  flex-direction: column;
+}
+#profile-warpper h3, #profile-warpper p{
+  width: 100%;
+  color: var(--color-primary);
+}
+#profile-warpper h3{
+  font-size: 1.2rem;
+  letter-spacing: -0.5px;
+  margin-bottom: 5px;
+}
+#profile-warpper h3 span{
+  color: var(--color-accent);
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  margin-left: 5px;
+  font-weight: 500;
+}
+#profile-warpper p{
+  font-size: 0.8rem;
+  margin:5px 5px 0px 0px; 
+  line-height: 18px;
+  font-weight: 300;
+}
+
+#profile-warpper img{
+  width: 25%;
+  border-radius: 50%;
+}
+#closePopup{
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+#closePopup svg{
+  width: 32px;
+  height: 32px;
+}
+#closePopup svg path{
+  fill: var(--color-accent);
+}
+#connect-warpper{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+#connect-warpper h3{
+  color: var(--color-primary);
+  border-top: 1px solid var(--color-secondary);
+  padding: 20px 10px 0px 10px;
+}
+#connect-warpper div{
+  display: flex;
+  gap: 30px;
+}
+#connect-warpper div a{
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.sc-web{
+  transform: translateY(-2px);
+}

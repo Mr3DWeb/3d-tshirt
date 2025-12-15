@@ -22,7 +22,13 @@ renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 const controls = new OrbitControls(camera,canvas);
 controls.enableDamping = true;
-
+controls.maxDistance = 10;
+controls.minDistance = 1;
+controls.mouseButtons = {
+  LEFT: THREE.MOUSE.NULL,
+  MIDDLE: THREE.MOUSE.DOLLY,
+  RIGHT: THREE.MOUSE.ROTATE
+};
 
 window.addEventListener('resize',() => {
   camera.aspect = window.innerWidth/window.innerHeight;
@@ -41,13 +47,35 @@ function getResponsiveData(){
   const width = window.innerWidth;
   const isMobile = width <= 450;
   return{
-    particleCount: isMobile ? 20 : 40,
     modelScale : isMobile ? 1.5 : 3,
-    brushSizeDefault : isMobile ? 15 : 30,
-    fpsTarget : isMobile ? 30 : 60
   }
 }
 const responsive = getResponsiveData();
+
+//Popup
+let isPopupOpen = false;
+const overlayPopup = document.querySelector('#Mr3DWeb');
+const openBtnPopup = document.querySelector('#openPopup');
+const closeBtnPopup = document.querySelector('#closePopup');
+openBtnPopup.addEventListener('click',()=>{
+  isPopupOpen = true;
+  overlayPopup.classList.add('active');
+})
+const closePopup = ()=>{
+  overlayPopup.classList.remove('active');
+  setTimeout(()=>{
+    isPopupOpen = false;
+  },300)
+}
+closeBtnPopup.addEventListener('click',(e)=>{
+  e.stopPropagation();
+  closePopup();
+})
+overlayPopup.addEventListener('click',(e)=>{
+  if(e.target === overlayPopup){
+    closePopup();
+  }
+})
 
 //----Helping Func---
 // Toggle Function
@@ -357,9 +385,8 @@ gltfLoader.load("model/t-shirt.glb",(gltf)=>{
     textureSize: textureSize
   };
   
-  //Add to scene % log
+  //Add to scene
   scene.add(tShrit);
-  console.log(gltf)
 })
 
 // Texture Loader
@@ -387,6 +414,7 @@ const mouse = new THREE.Vector2();
 
 function paintOnShirt(event) {
     if (!shirtMesh) return;
+    if (isPopupOpen) return;
 
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
