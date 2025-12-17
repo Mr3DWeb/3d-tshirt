@@ -321,10 +321,6 @@ div#footer{
   border-color: var(--text-primary);
   margin: 5px 0px;
 }
-#redoBTN{
-  opacity: 0.5;
-  pointer-events: none;
-}
 
 /* Animation & Human Button(Footer Button)  */
 .footer-btn {

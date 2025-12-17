@@ -108,8 +108,68 @@ modalConfrimBtn.addEventListener('click',()=>{
   closeModal();
 })
 
+//Logic Undo & Redo Btn
+const MAX_HISTORY_STEPS = 15;
+let historyStack = [];
+let historyStep = -1; 
 
-//----Helping Func---
+function saveHistoryState() {
+   if (!shirtMesh || !shirtMesh.userData) return;
+
+    const { paintLayerCtx, paintLayerCanvas, normalCtx, diffuseSystem } = shirtMesh.userData;
+
+    if (historyStep < historyStack.length - 1) {
+        historyStack = historyStack.slice(0, historyStep + 1);
+    }
+
+    const paintData = paintLayerCtx.getImageData(0, 0, paintLayerCanvas.width, paintLayerCanvas.height);
+    const normalData = normalCtx.getImageData(0, 0, diffuseSystem.canvas.width, diffuseSystem.canvas.height);
+
+    historyStack.push({
+        paint: paintData,
+        normal: normalData
+    });
+
+    if (historyStack.length > MAX_HISTORY_STEPS) {
+        historyStack.shift();
+    } else {
+        historyStep++;
+    }
+    
+    updateUndoRedoButtons();
+}
+
+function restoreState(state) {
+  if (!shirtMesh || !state) return;
+
+    const { paintLayerCtx, normalCtx, diffuseCtx, diffuseSystem } = shirtMesh.userData;
+
+    paintLayerCtx.clearRect(0, 0, diffuseSystem.canvas.width, diffuseSystem.canvas.height);
+    
+    paintLayerCtx.putImageData(state.paint, 0, 0);
+    normalCtx.putImageData(state.normal, 0, 0);
+
+    diffuseCtx.fillStyle = currentTShirtColor;
+    diffuseCtx.fillRect(0, 0, diffuseSystem.canvas.width, diffuseSystem.canvas.height);
+    diffuseCtx.drawImage(paintLayerCtx.canvas, 0, 0);
+
+    if (shirtMesh.material.map) shirtMesh.material.map.needsUpdate = true;
+    if (shirtMesh.material.normalMap) shirtMesh.material.normalMap.needsUpdate = true;
+
+    updateUndoRedoButtons();
+}
+function updateUndoRedoButtons() {
+    const canUndo = historyStep > 0;
+    undoBtn.style.opacity = canUndo ? '1' : '0.3';
+    undoBtn.style.pointerEvents = canUndo ? 'auto' : 'none';
+
+    const canRedo = historyStep < historyStack.length - 1;
+    redoBtn.style.opacity = canRedo ? '1' : '0.3';
+    redoBtn.style.pointerEvents = canRedo ? 'auto' : 'none';
+}
+
+//----Helping Func-------------
+
 // Toggle Function
 function toggleState (btn,onActive,onInactive){
   const isActive = btn.dataset.active ==='true';
@@ -137,7 +197,8 @@ function getRandomColor(){
   return color;
 }
 
-//---Footer Btn Logic
+//---Footer Btn Logic--------
+
 //logic Run Animation
 const btnAnimation = document.querySelector("#animation");
 btnAnimation.addEventListener("click",function(){
@@ -203,18 +264,34 @@ darkModeBtn.addEventListener('click', () => {
 //-----Tools Bar-------------
 //undo
 const undoBtn = document.getElementById("undoBTN");
+undoBtn.onclick = function() {
+    if (historyStep > 0) {
+        historyStep--;
+        restoreState(historyStack[historyStep]);
+    }
+};
+
 //redo
 const redoBtn = document.getElementById("redoBTN");
+redoBtn.onclick = function() {
+    if (historyStep < historyStack.length - 1) {
+        historyStep++; 
+        restoreState(historyStack[historyStep]);
+    }
+};
+
 //zoom in
 const zoomInBtn = document.getElementById("zoomInBTN");
 zoomInBtn.addEventListener('click',()=>{
   camera.position.z -= 0.5;
 })
 //zoom out
+
 const zoomOutBtn = document.getElementById("zoomOutBTN");
 zoomOutBtn.addEventListener('click',()=>{
   camera.position.z += 0.5;
 })
+
 //lock
 const lockBtn = document.getElementById("lockBTN");
 let isScreenLocked = false;
@@ -232,6 +309,7 @@ lockBtn.addEventListener("click",function(){
     }
   )
 })
+
 //trash
 function clearAllPaint(){
   const { diffuseCtx, normalCtx, diffuseTexture, normalTexture,paintLayerCtx,paintLayerCanvas, textureSize,diffuseSystem } = shirtMesh.userData;
@@ -249,6 +327,7 @@ function clearAllPaint(){
 
 
 //----System Color ----
+
 // get Human Color 
 const allHumanColorBtn = document.querySelectorAll(".humanColorBtn .color-swatch")
 let currentHumanColor = 0x000000;
@@ -453,6 +532,8 @@ gltfLoader.load("model/t-shirt.glb",(gltf)=>{
   
   //Add to scene
   scene.add(tShrit);
+  //SaveState
+  saveHistoryState();
 })
 
 // Texture Loader
@@ -483,6 +564,8 @@ function paintOnShirt(event) {
     if (isPopupOpen) return;
     if(isScreenLocked) return;
 
+
+    const rect = renderer.domElement.getBoundingClientRect()
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -494,7 +577,7 @@ function paintOnShirt(event) {
         const uv = intersects[0].uv;
         if (!uv) return;
 
-        const { diffuseCtx, normalCtx, diffuseTexture, normalTexture,paintLayerCtx,paintLayerCanvas, textureSize,diffuseSystem } = shirtMesh.userData;
+        const { diffuseCtx, normalCtx, diffuseTexture, normalTexture,paintLayerCtx,textureSize} = shirtMesh.userData;
 
         const x = uv.x * textureSize;
         const y = uv.y * textureSize;
@@ -513,6 +596,8 @@ function paintOnShirt(event) {
 
         diffuseTexture.needsUpdate = true;
         normalTexture.needsUpdate = true;
+
+        saveHistoryState();
     }
 }
 
