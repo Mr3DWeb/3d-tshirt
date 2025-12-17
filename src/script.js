@@ -43,6 +43,18 @@ window.addEventListener('resize',() => {
 })
 
 //--------------------------- JS ------------------------------
+//Loader Manager
+const manager = new THREE.LoadingManager();
+const loadingScreen = document.getElementById('loding-screen');
+manager.onLoad = function(){
+  setTimeout(()=>{
+    loadingScreen.classList.add('fade-out');
+    setTimeout(()=>{
+      loadingScreen.style.display = 'none';
+    },800)
+  },500)
+}
+
 // Manage Responsive 
 function getResponsiveData(){
   const width = window.innerWidth;
@@ -466,7 +478,7 @@ dirLight.position.set(2,2,2);
 scene.add(dirLight);
 
 //GltfLoader
-const gltfLoader = new GLTFLoader();
+const gltfLoader = new GLTFLoader(manager);
 
 let tShrit,shirtMesh,shirtMat,humanMat;
 let mixer,action;
