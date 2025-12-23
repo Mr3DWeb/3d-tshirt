@@ -285,27 +285,27 @@ div#footer{
   font-size: 0.9rem;
 }
 /* -- tools bar -- */
-#tools-bar{
+#tools-bar , #manage-color-mobile {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width:4%;
+  width:4% !important;
   gap: 10px;
   padding: 25px;
 }
-#tools-bar button{
+#tools-bar button , #manage-color-mobile button{
    background: none;
    border: none;
    cursor: pointer;
    padding: 5px;
 }
-#tools-bar svg {
+#tools-bar svg , #manage-color-mobile button svg {
   width: 32px;
   height: 32px;
   background: none;
 }
-#tools-bar svg path{
+#tools-bar svg path , #manage-color-mobile button svg path{
   fill: var(--text-primary);
 }
 #tools-bar button:hover svg path{
@@ -637,12 +637,23 @@ div#footer{
   }
 }
 
+#manage-color-mobile{
+  display: none;
+}
+
 @media  (max-width : 450px ){
   /* Typo */
   div#header h1{
     font-size: 1.3rem;
   }
   /* other */
+  section{
+    padding: 10px;
+  }
+  #manage-color-mobile{
+    display: flex;
+    gap: 25px;
+  }
   .theme-switch {
     width: 60px;
     height: 30px;
@@ -654,9 +665,23 @@ div#footer{
   div#header, div#main, div#footer{
     padding: 10px 0px;
   }
-  #tools-bar svg {
-    width: 28px;
-    height: 28px;
+  #tools-bar , #manage-color-mobile{
+    padding: 20px;
+  }
+  #tools-bar svg , #manage-color-mobile button svg{
+    width: 26px;
+    height: 26px;
+  }
+  #humanColorBtn-resp{
+    transform: scale(1.5);
+  }
+  #manage-color-mobile span {
+    width: 30px;
+    top: 283px;
+    position: absolute;
+    height: 20px;
+    border-top: 5px solid red;
+    border-radius: 35%;
   }
   #manage-color{
     display: none;
