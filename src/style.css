@@ -638,7 +638,66 @@ div#footer{
 }
 
 @media  (max-width : 450px ){
+  /* Typo */
   div#header h1{
     font-size: 1.3rem;
   }
+  /* other */
+  .theme-switch {
+    width: 60px;
+    height: 30px;
+  }
+  .switch-handle {
+    width: 30px;
+    height: 30px; 
+  }
+  div#header, div#main, div#footer{
+    padding: 10px 0px;
+  }
+  #tools-bar svg {
+    width: 28px;
+    height: 28px;
+  }
+  #manage-color{
+    display: none;
+  }
+  div#footer {
+    height: 15vh;
+  }
+  .madeBy{
+    left: auto;
+    bottom: 12px;
+  }
+  .footer-btn svg {
+    width: 30px;
+    height: 30px;
+  }
+  .footer-btn {
+    padding: 10px;
+  }
+  .popup, .confrim-box{
+  width: 90%;
+  }
+  #profile-warpper h3{
+    font-size: 0.8rem;
+  }
+  #profile-warpper h3 span {
+    font-size: 0.7rem;
+    position: absolute;
+    top: 20px;
+    left: 110px;
+}
+  #profile-warpper p {
+    font-size: 0.65rem;
+  }
+
+  #connect-warpper h3{
+    font-size: 1rem;
+  }
+  #connect-warpper div a {
+  font-size: 0.8rem;
+  }
+  .loader-note {
+    display: none;
+}
 }
