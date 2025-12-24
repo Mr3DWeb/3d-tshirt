@@ -58,23 +58,23 @@ manager.onLoad = function(){
 // Manage Responsive 
 function getResponsiveData(){
   const width = window.innerWidth;
-  const isMobile = width <= 450;
+  const isMobile = width <= 500;
   return{
-    modelScale : isMobile ? 2 : 3,
+    modelScale : isMobile ? 1.8 : 3,
     textureSize : isMobile ? 512 : 1024,
-    yPosition : isMobile ? -2.5 : -3.5
+    yPosition : isMobile ? -2.1 : -3.5
   }
 }
 const responsive = getResponsiveData();
 
 //Popup Mr3DWeb
-setupPopup('#openPopup','#Mr3DWeb','.closePopup2');
+setupPopup('#openPopup','#Mr3DWeb','#closePopup');
 //Popup Human
-setupPopup('#humanColorBtn-resp','.manage-color-popup','.closePopup');
+setupPopup('#humanColorBtn-resp','#human-overlay','#human-close');
 //Popup T-Shairt
-setupPopup('#shirtColorBtn-resp','.manage-color-popup','.closePopup');
+setupPopup('#shirtColorBtn-resp','#tshairt-overlay','#close-tshirt');
 //Popup Brush
-setupPopup('#brushColorBtn-resp','.manage-color-popup','.closePopup');
+setupPopup('#brushColorBtn-resp','#brush-overlay','#close-brush');
 
 //Custom Modal Func
 const modalOverlay = document.getElementById('confrim-overlay');
@@ -255,12 +255,12 @@ btnHuman.addEventListener('click',function(){
     ()=>{   
       tShrit.children[0].children[0].visible = true;
       camera.position.set(0,0,6.2);
-      tShrit.position.y = -3
+      tShrit.position.y = responsive.yPosition;
     },
     ()=>{
       tShrit.children[0].children[0].visible = false;
       camera.position.set(0,0,2.4);
-      tShrit.position.y = -3.5
+      tShrit.position.y = responsive.yPosition;
     }
   )
 })
@@ -449,6 +449,14 @@ let brushSize;
 brushSizeInput.addEventListener('input',(e)=>{
   const newSize = e.target.value;
   brushSizeDisplay.innerHTML = newSize+"px";
+  brushSize = newSize;
+})
+//brush size mobile
+const brushSizeInputMob = document.getElementById('brush-size-mob');
+const brushSizeDisplayMob = document.getElementById('brush-size-display-mob');
+brushSizeInputMob.addEventListener('input',(e)=>{
+  const newSize = e.target.value;
+  brushSizeDisplayMob.innerHTML = newSize+"px";
   brushSize = newSize;
 })
 //get brush color 

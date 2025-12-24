@@ -238,6 +238,9 @@ div#footer{
     height: 36px;
     transform: translateY(-2px);
 }
+.rainbow-mode{
+  background-color: var(--color-primary) !important;
+}
 .color-swatch svg{
   width: 25px;
   height: 22px;
@@ -257,19 +260,19 @@ div#footer{
   justify-content: space-between;
   margin: 15px 0px;
 }
-#brush-size{
+.brush-size{
   width: 75%;
   -webkit-appearance: none;
   background: transparent;
 }
-#brush-size::-webkit-slider-runnable-track{
+.brush-size::-webkit-slider-runnable-track{
   width: 100%;
   height: 4px;
   background: var(--text-primary);
   border-radius: 2px;
   cursor: pointer;
 }
-#brush-size::-webkit-slider-thumb {
+.brush-size::-webkit-slider-thumb {
     -webkit-appearance: none;
     height: 18px;
     width: 18px;
@@ -460,7 +463,7 @@ div#footer{
   width: 25%;
   border-radius: 50%;
 }
-.closePopup , .closePopup2{
+.closePopup{
   position: absolute;
   top: 20px;
   right: 30px;
@@ -468,11 +471,11 @@ div#footer{
   border: none;
   cursor: pointer;
 }
-.closePopup svg , .closePopup2 svg{
+.closePopup svg {
   width: 32px;
   height: 32px;
 }
-.closePopup svg path , .closePopup2 svg path{
+.closePopup svg path{
   fill: var(--color-accent) !important;
 }
 #connect-warpper{
@@ -683,6 +686,12 @@ div#footer{
     border-top: 5px solid red;
     border-radius: 35%;
   }
+  .brush-size-display{
+    border: none !important;
+    position: relative !important;
+    color: var(--color-primary) !important;
+    top: 0 !important;
+  }
   #manage-color{
     display: none;
   }
@@ -724,5 +733,16 @@ div#footer{
   }
   .loader-note {
     display: none;
+}
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+.control-group h3{
+  color: var(--color-primary);
+}
+input#brush-size-mob{
+  background-color: var(--color-accent);
 }
 }

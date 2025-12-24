@@ -104,8 +104,8 @@
           <div class="control-group">
             <h3>Brush Setting</h3>
             <div class="brush-size-warpper">
-              <input type="range" id="brush-size" min="50" max="300" value="150">
-              <span class="size-value" id="brush-size-display">150px</span>
+              <input type="range" class="brush-size" id="brush-size" min="50" max="300" value="150">
+              <span class="size-value brush-size-display" id="brush-size-display">150px</span>
             </div>
             <div class="select-color-warpper brushColorBtn">
               <button class="color-swatch rainbow-mode" id="btn-random-color" data-color="random" data-active="true" data-tooltip="Random Color">
@@ -140,12 +140,22 @@
 </svg>
           </button>
           <!-- Human Popup -->
-           <div class="manage-color-popup" >
+           <div class="manage-color-popup" id="human-overlay" >
              <div class="color-popup-box radius-squircle">
-                  <button class="closePopup">
+                  <button class="closePopup" id="human-close">
                       <svg id="Layer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><defs><style>.cls-1{fill:#25314c;}</style></defs><path id="times" class="cls-1" d="M18.354,17.646a.5.5,0,0,1-.708.708L12,12.707,6.354,18.354a.5.5,0,0,1-.708-.708L11.293,12,5.646,6.354a.5.5,0,0,1,.708-.708L12,11.293l5.646-5.647a.5.5,0,0,1,.708.708L12.707,12Z"/></svg>
                   </button>
-
+                  <div class="control-group">
+            <h3>Human Color</h3>
+            <div class="select-color-warpper humanColorBtn">
+              <button class="color-swatch" style="background-color: #000000;" data-color="#000000" data-active="true"></button>
+              <button class="color-swatch" style="background-color: #FFFFFF;" data-color="#ffffff"></button>
+              <button class="color-swatch" style="background-color: #f1c27d" data-color="#f1c27d"></button>
+              <button class="color-swatch" style="background-color: #e0ac69" data-color="#e0ac69"></button>
+              <button class="color-swatch" style="background-color: #c68642" data-color="#c68642"></button>
+              <button class="color-swatch" style="background-color: #8d5524" data-color="#8d5524"></button>
+            </div>
+          </div>
              </div>
            </div>
 
@@ -176,12 +186,28 @@
 </svg>
           </button>
           <!-- T-Shairt Popup -->
-           <div class="manage-color-popup">
+           <div class="manage-color-popup" id="tshairt-overlay">
              <div class="color-popup-box radius-squircle">
-                <button class="closePopup">
+                <button class="closePopup" id="close-tshirt">
                       <svg id="Layer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><defs><style>.cls-1{fill:#25314c;}</style></defs><path id="times" class="cls-1" d="M18.354,17.646a.5.5,0,0,1-.708.708L12,12.707,6.354,18.354a.5.5,0,0,1-.708-.708L11.293,12,5.646,6.354a.5.5,0,0,1,.708-.708L12,11.293l5.646-5.647a.5.5,0,0,1,.708.708L12.707,12Z"/></svg>
                   </button>
+                 <div class="control-group">
+            <h3>T-Shirt Color</h3>
+            <div class="select-color-warpper t-shirtColorBtn">
+              <button class="color-swatch" style="background-color: #FFFFFF;" data-color="#ffffff" data-active="true"></button>
+              <button class="color-swatch" style="background-color: #000000;" data-color="#000000"></button>
+              <button class="color-swatch" style="background-color: #ff0000;" data-color="#ff0000"></button>
+              <button class="color-swatch" style="background-color: #ae00ff;" data-color="#ae00ff"></button>
+              <button class="color-swatch" style="background-color: #9dff00;" data-color="#9dff00"></button>       
 
+              <div class="custom-color-warpper" data-tooltip="Color Picker" >
+                <input type="color" id="custom-tshirt-picker"  value="#ffffff">
+                <label for="custom-tshirt-picker" class="color-swatch picker-btn">
+                  <svg id="Layer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><defs><style>.cls-1{fill:#25314c;}</style></defs><path id="syringe" class="cls-1" d="M21.354,6.869,20.3,5.813h0L17.131,2.646a.5.5,0,0,0-.707.708l.7.7L14.667,6.515l-.7-.7h0l-.79-.791a.5.5,0,0,0-.707.708l.438.438L6.646,12.424c-.028.028-.047.057-.074.086-.008.007-.018.009-.025.016a.58.58,0,0,0-.034.052,3.477,3.477,0,0,0-1.065,2.227,3.241,3.241,0,0,0,.871,2.169L2.646,20.646a.5.5,0,0,0,.708.708l3.672-3.673a3.286,3.286,0,0,0,2.085.864,3.524,3.524,0,0,0,2.465-1.192L17.833,11.1l.438.438a.5.5,0,0,0,.708-.707l-.792-.792-.7-.7,2.459-2.459.7.7a.5.5,0,1,0,.708-.707ZM10.869,16.646c-1.217,1.215-2.3,1.215-3.515,0a2.537,2.537,0,0,1-.906-1.809,2.2,2.2,0,0,1,.486-1.217l1.222,1.224a.5.5,0,0,0,.707-.707L7.606,12.879l1.408-1.408,1.253,1.253a.5.5,0,0,0,.707-.707L9.721,10.764l1.408-1.408,1.258,1.257a.5.5,0,0,0,.707,0,.5.5,0,0,0,0-.707L11.836,8.649l1.775-1.775,2.812,2.812h0l.7.7Zm5.909-8.02-1.4-1.4,2.459-2.459,1.4,1.4Z"/></svg>
+                </label>
+              </div>
+            </div>
+          </div>
              </div>
            </div>
 
@@ -203,13 +229,33 @@
               </g>
              </svg>
           </button>
-          <!-- T-Brush Popup -->
-           <div class="manage-color-popup">
+          <!-- Brush Popup -->
+           <div class="manage-color-popup" id="brush-overlay">
              <div class="color-popup-box radius-squircle">
-               <button class="closePopup">
+               <button class="closePopup" id="close-brush">
                       <svg id="Layer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><defs><style>.cls-1{fill:#25314c;}</style></defs><path id="times" class="cls-1" d="M18.354,17.646a.5.5,0,0,1-.708.708L12,12.707,6.354,18.354a.5.5,0,0,1-.708-.708L11.293,12,5.646,6.354a.5.5,0,0,1,.708-.708L12,11.293l5.646-5.647a.5.5,0,0,1,.708.708L12.707,12Z"/></svg>
                   </button>
-
+           <div class="control-group">
+            <h3>Brush Setting</h3>
+            <div class="brush-size-warpper">
+              <input type="range" class="brush-size" id="brush-size-mob" min="50" max="300" value="150">
+              <span class="size-value brush-size-display" id="brush-size-display-mob">150px</span>
+            </div>
+            <div class="select-color-warpper brushColorBtn">
+              <button class="color-swatch rainbow-mode" id="btn-random-color" data-color="random" data-active="true" data-tooltip="Random Color">
+               <svg id="Layer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><defs><style>.cls-1{fill:#25314c;}</style></defs><path id="palette" class="cls-1" d="M22.311,9.679A10.619,10.619,0,0,0,11.91,1.5a10.5,10.5,0,0,0,.09,21,1.827,1.827,0,0,0,1.969-1.174c.219-.832-.333-1.737-1.442-2.363A.974.974,0,0,1,12,17.907c.158-.6.994-.962,2.235-.962h2.224a6.571,6.571,0,0,0,4.924-2.037A6.061,6.061,0,0,0,22.311,9.679Zm-1.7,4.595a5.57,5.57,0,0,1-4.151,1.671H14.235c-2.485,0-3.067,1.2-3.2,1.708a1.969,1.969,0,0,0,1,2.181c.773.437,1.043.948.966,1.238-.069.264-.453.428-1,.428A9.5,9.5,0,1,1,21.331,9.875,5.126,5.126,0,0,1,20.61,14.274ZM18.018,10A1,1,0,1,1,17,9h.02A1,1,0,0,1,18.018,10Zm-7-3A1,1,0,1,1,10,6h.02A1,1,0,0,1,11.018,7Zm4,0A1,1,0,1,1,14,6h.02A1,1,0,0,1,15.018,7Zm-7,3A1,1,0,1,1,7,9h.02A1,1,0,0,1,8.018,10Zm0,4A1,1,0,1,1,7,13h.02A1,1,0,0,1,8.018,14Z"/></svg>
+              </button>
+              <button class="color-swatch" style="background-color: #FF0055;" data-color="#FF0055"></button>
+              <button class="color-swatch" style="background-color: #00FF99;" data-color="#00FF99"></button>
+              <button class="color-swatch" style="background-color: #00CCFF;" data-color="#00CCFF"></button>
+               <div class="custom-color-warpper" data-tooltip="Color Picker">
+                <input type="color" id="custom-brush-picker" value="#ffffff">
+                <label for="custom-brush-picker" class="color-swatch picker-btn">
+                  <svg id="Layer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><defs><style>.cls-1{fill:#25314c;}</style></defs><path id="syringe" class="cls-1" d="M21.354,6.869,20.3,5.813h0L17.131,2.646a.5.5,0,0,0-.707.708l.7.7L14.667,6.515l-.7-.7h0l-.79-.791a.5.5,0,0,0-.707.708l.438.438L6.646,12.424c-.028.028-.047.057-.074.086-.008.007-.018.009-.025.016a.58.58,0,0,0-.034.052,3.477,3.477,0,0,0-1.065,2.227,3.241,3.241,0,0,0,.871,2.169L2.646,20.646a.5.5,0,0,0,.708.708l3.672-3.673a3.286,3.286,0,0,0,2.085.864,3.524,3.524,0,0,0,2.465-1.192L17.833,11.1l.438.438a.5.5,0,0,0,.708-.707l-.792-.792-.7-.7,2.459-2.459.7.7a.5.5,0,1,0,.708-.707ZM10.869,16.646c-1.217,1.215-2.3,1.215-3.515,0a2.537,2.537,0,0,1-.906-1.809,2.2,2.2,0,0,1,.486-1.217l1.222,1.224a.5.5,0,0,0,.707-.707L7.606,12.879l1.408-1.408,1.253,1.253a.5.5,0,0,0,.707-.707L9.721,10.764l1.408-1.408,1.258,1.257a.5.5,0,0,0,.707,0,.5.5,0,0,0,0-.707L11.836,8.649l1.775-1.775,2.812,2.812h0l.7.7Zm5.909-8.02-1.4-1.4,2.459-2.459,1.4,1.4Z"/></svg>
+                </label>
+              </div>
+            </div>
+          </div>
              </div>
            </div>
 
@@ -270,7 +316,7 @@
     <div id="Mr3DWeb">
       <div class="popup radius-squircle">
         <div id="profile-warpper">
-          <button class="closePopup2">
+          <button class="closePopup" id="closePopup">
             <svg id="Layer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><defs><style>.cls-1{fill:#25314c;}</style></defs><path id="times" class="cls-1" d="M18.354,17.646a.5.5,0,0,1-.708.708L12,12.707,6.354,18.354a.5.5,0,0,1-.708-.708L11.293,12,5.646,6.354a.5.5,0,0,1,.708-.708L12,11.293l5.646-5.647a.5.5,0,0,1,.708.708L12.707,12Z"/></svg>
           </button>
           <img src="/media/me-min.jpg" alt="Profile Pic" id="profileImg">
