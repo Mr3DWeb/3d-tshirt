@@ -48,6 +48,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 body{
   overflow: hidden;
@@ -69,7 +70,7 @@ canvas{
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   z-index: 1;
 }
 section{
@@ -79,12 +80,13 @@ section{
   justify-content: space-between;
   gap: 2vh;
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
   padding: 20px;
   position: relative; 
   z-index: 2;
   pointer-events: none;
   color: var(--text-primary);
+  overflow-x: hidden;
 }
 section h1 , section h2 , section h3 , section p , section span , section button, section div{
   pointer-events: auto;
@@ -644,7 +646,7 @@ div#footer{
   display: none;
 }
 
-@media  (max-width : 450px ){
+@media  (max-width : 500px ){
   /* Typo */
   div#header h1{
     font-size: 1.3rem;
@@ -656,6 +658,7 @@ div#footer{
   #manage-color-mobile{
     display: flex;
     gap: 25px;
+    position: relative;
   }
   .theme-switch {
     width: 60px;
@@ -678,14 +681,6 @@ div#footer{
   #humanColorBtn-resp{
     transform: scale(1.5);
   }
-  #manage-color-mobile span {
-    width: 30px;
-    top: 283px;
-    position: absolute;
-    height: 20px;
-    border-top: 5px solid red;
-    border-radius: 35%;
-  }
   .brush-size-display{
     border: none !important;
     position: relative !important;
@@ -696,11 +691,14 @@ div#footer{
     display: none;
   }
   div#footer {
-    height: 15vh;
+    height: 25vh;
+  }
+  div#main {
+    height: 67vh;
   }
   .madeBy{
     left: auto;
-    bottom: 12px;
+    bottom: 6%;
   }
   .footer-btn svg {
     width: 30px;
@@ -744,5 +742,14 @@ div#footer{
 }
 input#brush-size-mob{
   background-color: var(--color-accent);
+}
+.switch-handle{
+  left: -6px;
+}
+#tools-bar button:hover svg path{
+  fill: var(--text-primary);
+}
+#tools-bar button[data-active="true"] svg path{
+  fill: var(--color-accent);
 }
 }
