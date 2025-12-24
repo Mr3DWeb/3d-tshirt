@@ -514,7 +514,7 @@ const gltfLoader = new GLTFLoader(manager);
 
 let tShrit,shirtMesh,shirtMat,humanMat;
 let mixer,action;
-gltfLoader.load("model/t-shirt.glb",(gltf)=>{
+gltfLoader.load("/3d-tshirt/model/t-shirt.glb",(gltf)=>{
   tShrit = gltf.scene;
 
   //Scale manegment
@@ -582,8 +582,8 @@ gltfLoader.load("model/t-shirt.glb",(gltf)=>{
 
 // Texture Loader
 const textureLoader = new THREE.TextureLoader();
-const decalDiffuse = textureLoader.load('texture/decal-diffuse.png');
-const decalNormal = textureLoader.load('texture/decal-normal.jpg');
+const decalDiffuse = textureLoader.load('/3d-tshirt/texture/decal-diffuse.png');
+const decalNormal = textureLoader.load('/3d-tshirt/texture/decal-normal.jpg');
 
 // --- Paint System ----
 
