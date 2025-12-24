@@ -391,7 +391,7 @@ div#footer{
   margin-left: 3px;
   letter-spacing: 1px;
 }
-#Mr3DWeb,#confrim-overlay{
+#Mr3DWeb,#confrim-overlay , .manage-color-popup{
   position: fixed;
   top: 0;
   left: 0;
@@ -407,11 +407,11 @@ div#footer{
   visibility: hidden; 
   transition: opacity 0.4s ease, visibility 0.4s ease;
 }
-#Mr3DWeb.active , #confrim-overlay.active {
+#Mr3DWeb.active , #confrim-overlay.active , .manage-color-popup.active{
     opacity: 1;
     visibility: visible;
 }
-.popup,.confrim-box {
+.popup,.confrim-box ,.color-popup-box {
   width: 40%;
   background-color: var(--text-primary);
   backdrop-filter: blur(10px);
@@ -460,7 +460,7 @@ div#footer{
   width: 25%;
   border-radius: 50%;
 }
-#closePopup{
+.closePopup , .closePopup2{
   position: absolute;
   top: 20px;
   right: 30px;
@@ -468,12 +468,12 @@ div#footer{
   border: none;
   cursor: pointer;
 }
-#closePopup svg{
+.closePopup svg , .closePopup2 svg{
   width: 32px;
   height: 32px;
 }
-#closePopup svg path{
-  fill: var(--color-accent);
+.closePopup svg path , .closePopup2 svg path{
+  fill: var(--color-accent) !important;
 }
 #connect-warpper{
   width: 100%;
@@ -700,7 +700,7 @@ div#footer{
   .footer-btn {
     padding: 10px;
   }
-  .popup, .confrim-box{
+  .popup, .confrim-box , .color-popup-box{
   width: 90%;
   }
   #profile-warpper h3{

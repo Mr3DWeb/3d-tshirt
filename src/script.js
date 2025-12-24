@@ -68,10 +68,13 @@ function getResponsiveData(){
 const responsive = getResponsiveData();
 
 //Popup Mr3DWeb
-setupPopup('#openPopup','#Mr3DWeb','#closePopup');
+setupPopup('#openPopup','#Mr3DWeb','.closePopup2');
 //Popup Human
+setupPopup('#humanColorBtn-resp','.manage-color-popup','.closePopup');
 //Popup T-Shairt
+setupPopup('#shirtColorBtn-resp','.manage-color-popup','.closePopup');
 //Popup Brush
+setupPopup('#brushColorBtn-resp','.manage-color-popup','.closePopup');
 
 //Custom Modal Func
 const modalOverlay = document.getElementById('confrim-overlay');
