@@ -67,30 +67,11 @@ function getResponsiveData(){
 }
 const responsive = getResponsiveData();
 
-//Popup
-let isPopupOpen = false;
-const overlayPopup = document.querySelector('#Mr3DWeb');
-const openBtnPopup = document.querySelector('#openPopup');
-const closeBtnPopup = document.querySelector('#closePopup');
-openBtnPopup.addEventListener('click',()=>{
-  isPopupOpen = true;
-  overlayPopup.classList.add('active');
-})
-const closePopup = ()=>{
-  overlayPopup.classList.remove('active');
-  setTimeout(()=>{
-    isPopupOpen = false;
-  },300)
-}
-closeBtnPopup.addEventListener('click',(e)=>{
-  e.stopPropagation();
-  closePopup();
-})
-overlayPopup.addEventListener('click',(e)=>{
-  if(e.target === overlayPopup){
-    closePopup();
-  }
-})
+//Popup Mr3DWeb
+setupPopup('#openPopup','#Mr3DWeb','#closePopup');
+//Popup Human
+//Popup T-Shairt
+//Popup Brush
 
 //Custom Modal Func
 const modalOverlay = document.getElementById('confrim-overlay');
@@ -208,6 +189,45 @@ function getRandomColor(){
     color += letters[Math.floor(Math.random() * 16)];
   }
   return color;
+}
+
+let isOpen = false;
+function setupPopup(triggerBtnId, overlayId, closeBtnId) {
+    const triggerBtn = document.querySelector(triggerBtnId);
+    const overlay = document.querySelector(overlayId);
+    const closeBtn = document.querySelector(closeBtnId);
+
+    if (!triggerBtn || !overlay || !closeBtn) {
+        console.warn(`Element not found for popup setup: ${triggerBtnId}, ${overlayId}, ${closeBtnId}`);
+        return;
+    }
+
+    const openPopup = () => {
+        isOpen = true;
+        overlay.classList.add('active');
+    };
+
+    const closePopup = () => {
+        overlay.classList.remove('active');
+        setTimeout(() => {
+            isOpen = false;
+        }, 300);
+    };
+
+    triggerBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openPopup();
+    });
+
+    closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closePopup();
+    });
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            closePopup();
+        }
+    });
 }
 
 //---Footer Btn Logic--------
@@ -574,7 +594,7 @@ const mouse = new THREE.Vector2();
 
 function paintOnShirt(event) {
     if (!shirtMesh) return;
-    if (isPopupOpen) return;
+    if (isOpen) return;
     if(isScreenLocked) return;
 
 
