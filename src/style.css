@@ -709,6 +709,7 @@ div#footer{
   }
   .popup, .confrim-box , .color-popup-box{
   width: 90%;
+  padding: 30px 25px;
   }
   #profile-warpper h3{
     font-size: 0.8rem;
@@ -741,7 +742,8 @@ div#footer{
   color: var(--color-primary);
 }
 input#brush-size-mob{
-  background-color: var(--color-accent);
+  border-radius: 10px;
+  border: 2px solid var(--color-primary);
 }
 .switch-handle{
   left: -6px;
