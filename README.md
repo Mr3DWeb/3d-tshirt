@@ -1,6 +1,6 @@
 ![Project Banner or GIF](https://github.com/Mr3DWeb/3d-t-shirt/blob/main/T-shirt%20demo.gif)
 
-🔗<img src="https://cultofthepartyparrot.com/parrots/hd/laptop_parrot.gif" width="30" height="30"/> **[Live Demo](https://mr3dweb.com/3d-t-shirt/)**
+🔗<img src="https://cultofthepartyparrot.com/parrots/hd/laptop_parrot.gif" width="30" height="30"/> **[Live Demo](https://mr3dweb.com/3d-tshirt/)**
 
 ## 3D T-Shirt Painting 
 
